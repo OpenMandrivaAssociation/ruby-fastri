@@ -1,7 +1,7 @@
 Summary: FastRI is a *much* faster alternative to the Ruby ri command-line tool
 Name: ruby-fastri
 Version: 0.3.1
-Release: %mkrel 2
+Release: %mkrel 3
 Source0: http://rubyforge.org/frs/download.php/31654/fastri-%{version}.tar.gz
 Source1: fastri.init.sh
 Source2: fastri.sysconfig
