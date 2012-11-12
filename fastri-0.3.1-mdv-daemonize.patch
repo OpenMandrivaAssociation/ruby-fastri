@@ -1,0 +1,49 @@
+--- fastri-0.3.1/bin/fastri-server
++++ fastri-0.3.1/bin/fastri-server
+@@ -105,12 +105,25 @@ options = {:allowed_hosts => ["127.0.0.1"], :addr => "127.0.0.1",
+   :index_file => File.join(home, ".fastri-index"),
+   :do_full_text => false, 
+   :full_text_dir => File.join(home, ".fastri-fulltext"),
++  :logfile => File.join(home, ".fastri-log"),
+ }
+ OptionParser.new do |opts|
+   opts.version = FastRI::FASTRI_VERSION
+   opts.release = FastRI::FASTRI_RELEASE_DATE
+   opts.banner = "Usage: fastri-server.rb [options]"
+ 
++  opts.on("-d", "--daemon", "Run as daemon.") do
++    options[:daemon] = true
++  end
++
++  opts.on("-p", "--pidfile FILE", "Daemon PID file.") do |pidfile|
++    options[:pidfile] = pidfile
++  end
++
++  opts.on("-l", "--logfile FILE", "Daemon log file.") do |logfile|
++    options[:logfile] = logfile
++  end
++
+   opts.on("-a", "--allow HOST", "Allow connections from HOST.",
+           "(default: 127.0.0.1)") do |host|
+     options[:allowed_hosts] << host
+@@ -148,6 +161,20 @@ OptionParser.new do |opts|
+   end
+ end.parse!
+ 
++# based on http://blade.nagaokaut.ac.jp/cgi-bin/scat.rb/ruby/ruby-talk/87467
++if options[:daemon]
++   exit if Process.fork
++   Process.setsid
++   exit if Process.fork
++   pidfile = File.new(options[:pidfile], "w")
++   pidfile.write(Process.pid.to_s)
++   pidfile.close
++   Dir.chdir("/")
++   STDIN.reopen("/dev/null")
++   STDOUT.reopen(options[:logfile], "a")
++   STDERR.reopen(STDOUT)
++end
++
+ if File.exist?(options[:index_file])
+   ri_reader = open(options[:index_file], "rb"){|io| Marshal.load io } rescue nil
+ end

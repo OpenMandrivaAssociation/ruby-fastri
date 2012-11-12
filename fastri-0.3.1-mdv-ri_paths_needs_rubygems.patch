@@ -1,0 +1,14 @@
+--- fastri-0.3.1/lib/fastri/util.rb
++++ fastri-0.3.1/lib/fastri/util.rb
+@@ -32,11 +32,7 @@ unless defined? ::Gem
+     end
+   end
+ end
+-# don't let rdoc/ri/ri_paths load rubygems.rb, that takes ~100ms !
+-emulation = $".all?{|x| /rubygems\.rb$/ !~ x} # 1.9 compatibility
+-$".unshift "rubygems.rb" if emulation
+ require 'rdoc/ri/ri_paths'
+-$".delete "rubygems.rb" if emulation
+ require 'rdoc/ri/ri_writer'
+ 
+ module FastRI
