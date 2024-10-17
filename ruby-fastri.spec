@@ -11,7 +11,7 @@ Patch0: fastri-0.3.1-mdv-daemonize.patch
 Patch1: fastri-0.3.1-mdv-ri_paths_needs_rubygems.patch
 License: Ruby or GPL+
 Group: Development/Ruby
-Url: http://rubyforge.org/projects/fastri/
+Url: https://rubyforge.org/projects/fastri/
 BuildRequires: ruby
 BuildArch: noarch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
